@@ -1,0 +1,19 @@
+.primary_color {
+    background-color: #1d5379;
+}
+.secondary_color {
+    color: #eab56f;
+}
+
+.complimentary_color {
+    color: #f5f5f5;
+    transition: color 0.5s;
+}
+
+.navbar .complimentary_color {
+    color: #f5f5f5 !important;
+}
+
+.complimentary_color:hover, .complimentary_color:focus {
+    color: #f0c893 !important;
+}
