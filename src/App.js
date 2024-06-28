@@ -1,6 +1,12 @@
+// css and bootstrap
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+// react router library
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// font awesome for react
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+// components
 import { Home } from "./components/Home";
 import { Profile } from "./components/Profile";
 import { TownHall } from "./components/TownHall";
@@ -8,6 +14,8 @@ import { Services } from "./components/Services";
 import { NotFound } from "./components/NotFound";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
+// add the icons to the library
+library.add(fas);
 
 function App() {
   return (
