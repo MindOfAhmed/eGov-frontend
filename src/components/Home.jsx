@@ -1,5 +1,9 @@
 import { Card } from "./Card";
 import { Link } from 'react-router-dom';
+import bannerImage from '../assets/banner.jpg';
+import townhall from '../assets/th.jpg';
+import townhallGov from '../assets/thGov.jpg';
+import townhallCitizens from '../assets/thCitizens.jpg';
 
 export const Home = () => {
     return (
@@ -15,7 +19,7 @@ export const Home = () => {
                 </p>
             </div>
             <div className="col-md-6 d-flex align-items-center justify-content-center">
-                <img src="https://via.placeholder.com/250" alt="placeholder" />
+                <img src={bannerImage} alt="a group of people communicating" width={300} height={200} className="shadow-lg"/>
             </div>
         </div>
         {/* services */}
@@ -52,7 +56,7 @@ export const Home = () => {
         {/* Town Hall */}
         <div className="row d-flex mt-5">
             <div className="col-md-4 d-flex justify-content-end image-container">
-                <img src="https://via.placeholder.com/250" alt="placeholder" className="first-image"/>
+                <img src={townhallGov} alt="government representatives listening in townhall" className="first-image"/>
             </div>
             <div className="col-md-1">
                 <p className="town_hall_text">Town Hall</p>
@@ -66,12 +70,12 @@ export const Home = () => {
                 </p>
             </div>
             <div className="col-md-5 image-container">
-                <img src="https://via.placeholder.com/300" alt="placeholder" className="second-image"/>
+                <img src={townhall} alt="A townhall" className="second-image"/>
             </div>
         </div>
         <div className="row d-flex">
             <div className="col-md-4 image-container">
-                <img src="https://via.placeholder.com/250" alt="placeholder" className="third-image"/>
+                <img src={townhallCitizens} alt="citizens speaking in townhall" className="third-image"/>
             </div>
             <div className="col-md-3 d-flex justify-content-center align-items-center">
                 <Link to="/townhall" className="text-center button">Learn More</Link>
