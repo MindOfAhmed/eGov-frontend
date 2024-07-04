@@ -3,6 +3,8 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // hooks
 import { useEffect, useState } from "react";
+// axios
+import axios from "axios";
 // react router library
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // font awesome for react
@@ -23,12 +25,26 @@ library.add(fas);
 function App() {
   // the following states and handlers have been lifted up from the nav component
   const [isLoggedIn, setIsLoggedIn] = useState(false); // this state will check if the user is logged in or not
+  const [userData, setUserData] = useState(null); // this state will store the user data after login
 
-  // check if the user is logged in
   useEffect(() => {
+    // check if the user is logged in
     const token = localStorage.getItem("access_token");
-    // set logged in state
-    setIsLoggedIn(!!token);
+    if (token) {
+      // set logged in state
+      setIsLoggedIn(!!token);
+
+      // fetch the user data
+      axios
+        .get("http://127.0.0.1:8080/api/user/", {
+          // pass the access token in the headers since this is a prtotected endpoint
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => setUserData(response.data))
+        .catch((error) => console.error(error));
+    }
   }, []);
 
   const handleLogout = () => {
@@ -39,10 +55,12 @@ function App() {
     // update the logged in state
     setIsLoggedIn(false);
   };
-  
+
   // this handler will be passed in as a prop for the login form
-  const handleLogin = () => {
+  const handleLogin = (userDetails) => {
+    // update the state and the user data
     setIsLoggedIn(true);
+    setUserData(userDetails);
   };
 
   return (
@@ -51,7 +69,11 @@ function App() {
     <Router>
       <div className="container-fluid">
         <div className="content col-md-12">
-          <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+          <Nav
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
+            userData={userData}
+          />
           {/* Routes is used to group Route components and ensure that only one route is rendered at a time */}
           <Routes>
             {/* route is used to define the mapping between the URL path and the component that should be rendered 

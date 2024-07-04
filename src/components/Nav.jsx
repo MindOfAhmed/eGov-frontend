@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
-export const Nav = ({ isLoggedIn, onLogout}) => {
+export const Nav = ({ isLoggedIn, onLogout, userData}) => {
+  // console.log("user data state: ", userData);
+
   return (
     <nav className="navbar navbar-expand-lg primary_color">
       <div className="container-fluid">
@@ -26,6 +28,11 @@ export const Nav = ({ isLoggedIn, onLogout}) => {
                   <li className='nav-item'>
                     <button className='nav-link complimentary_color' onClick={onLogout}>Logout</button>
                   </li>
+                  {userData && userData.citizens && userData.citizens.picture && (
+                    <li className='nav-item'> 
+                      <img src={userData.citizens.picture} alt="profile" className="rounded-circle" height={40} width={40}/>
+                    </li>
+                  )}
                 </>
               ) : 
               (

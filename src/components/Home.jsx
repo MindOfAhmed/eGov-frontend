@@ -48,7 +48,7 @@ export const Home = () => {
                 iure quibusdam in quis?"
             />
         </div>
-        <div className="row  d-flex justify-content-center mt-4 mb-3">
+        <div className="row d-flex justify-content-center mt-4 mb-3">
             <div className="col-md-12 d-flex justify-content-center">
                 <Link to="/services" className="button">Learn More</Link>
             </div>
