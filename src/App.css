@@ -78,7 +78,23 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1; 
 }
 
-/* .profile_image {
+.active-step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f0c893;
+    background-color: #1d5379;
     width: 30px;
     height: 30px;
-} */
+    border-radius: 15px;
+}
+.inactive-step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    background-color: rgb(206, 202, 202);
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}

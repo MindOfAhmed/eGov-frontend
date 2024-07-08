@@ -19,6 +19,9 @@ import { NotFound } from "./components/NotFound";
 import { Nav } from "./components/Nav";
 import { Footer } from "./components/Footer";
 import { LoginForm } from "./components/LoginForm";
+import { CitizenValidationForm } from "./components/CitizenValidationForm";
+import { AddressValidationForm } from "./components/AddressValidationForm";
+import { PassportValidationForm } from "./components/PassportValidationForm";
 // add the icons to the library
 library.add(fas);
 
@@ -64,7 +67,7 @@ function App() {
   };
 
   return (
-    /* router is the parent component that wraps all the routes and allows routing functionality in the app. 
+    /* Router is the parent component that wraps all the routes and allows routing functionality in the app. 
     it listens to the url changes and renders the correct component  */
     <Router>
       <div className="container-fluid">
@@ -82,6 +85,22 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/townhall" element={<TownHall />} />
             <Route path="/services" element={<Services />} />
+            <Route
+              path="/services/citizen_info"
+              element={<CitizenValidationForm next="/services/address" />}
+            />
+            <Route
+              path="/services/address"
+              element={
+                <AddressValidationForm next="/services/passport" />
+              }
+            />
+            <Route
+              path="/services/passport"
+              element={
+                <PassportValidationForm />
+              }
+            />
             <Route
               path="/login/"
               element={<LoginForm onLogin={handleLogin} />}
