@@ -34,12 +34,34 @@ export const PassportValidationForm = () => {
     }
     // copilot ^_^
   };
+  // ensure that the dates entered are mumbers in the format YYYY-MM-DD
+  const validateDateFormat = (dateString) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/; // foramt YYYY-MM-DD
+    if (!dateString.match(regex)) return false;
+
+    const date = new Date(dateString);
+    const timestamp = date.getTime();
+
+    // check if the date is a number
+    if (typeof timestamp !== "number" || Number.isNaN(timestamp)) return false;
+
+    return dateString === date.toISOString().split("T")[0];
+  };
+  // copilot ^_^
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
-    try {
-      // retrieve the token from local storage
-      const token = localStorage.getItem("access_token");
 
+    // ensure that the date format is as expected
+    if (
+      !validateDateFormat(formData.issue_date) ||
+      !validateDateFormat(formData.expiry_date)
+    ) {
+      setError("Invalid date format. Please use the format YYYY-MM-DD");
+      return;
+    }
+
+    try {
       // form data object is not directly accepted by the server
       const formDataToSend = new FormData(); // FormData is a web API that provides a way to construct a set of key/value pairs representing form fields and their values
       // convert the form data object to a FormData object that can handle files
@@ -51,10 +73,7 @@ export const PassportValidationForm = () => {
       // make an API request to the server to validate the citizen's address
       const response = await axios.post(
         "http://127.0.0.1:8080/api/passport_info_validation/",
-        formDataToSend,
-        {
-          headers: { Authorization: `Bearer ${token}` }, // pass the token in the headers as proof of authentication
-        }
+        formDataToSend
       );
 
       // Check if response and response.data are defined
@@ -77,7 +96,13 @@ export const PassportValidationForm = () => {
   useEffect(() => {
     // create a date object for three years ago
     const today = new Date();
-    const threeYearsAgo = new Date(today.setFullYear(today.getFullYear() - 3));
+    const threeYearsAgo = new Date(today.setFullYear(today.getFullYear() - 3))
+      .toISOString()
+      .slice(0, 10); // copilot ^_^
+    // don't do anything if the issue date is empty
+    if (formData.issue_date.length < 10) {
+      return;
+    }
     // if the issue date is less than three years ago, show the additional fields
     if (formData.issue_date < threeYearsAgo) {
       setIsVisible(true);
@@ -97,7 +122,7 @@ export const PassportValidationForm = () => {
         <div className="form-group col-md-6">
           <label htmlFor="passport_number">Current Passport Number: </label>
           <input
-            type="number"
+            type="text"
             name="passport_number"
             id="passport_number"
             className="form-control"
@@ -155,7 +180,6 @@ export const PassportValidationForm = () => {
                 name="reason"
                 id="reason"
                 value={formData.reason}
-                required={true}
                 onChange={handleChange}
               />
             </div>
@@ -164,7 +188,6 @@ export const PassportValidationForm = () => {
               <input
                 type="file"
                 className="form-control"
-                required={true}
                 onChange={handleChange}
               />
             </div>

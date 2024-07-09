@@ -25,19 +25,35 @@ export const CitizenValidationForm = ({ next }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  // ensure that the dates entered are mumbers in the format YYYY-MM-DD
+  const validateDateFormat = (dateString) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/; // foramt YYYY-MM-DD
+    if (!dateString.match(regex)) return false;
+
+    const date = new Date(dateString);
+    const timestamp = date.getTime();
+
+    // check if the date is a number
+    if (typeof timestamp !== "number" || Number.isNaN(timestamp)) return false;
+
+    return dateString === date.toISOString().split("T")[0];
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
-    try {
-      // retrieve the token from local storage
-      const token = localStorage.getItem("access_token");
 
+    // ensure that the date format is as expected
+    if (!validateDateFormat(formData.date_of_birth)) {
+      setError("Invalid date format. Please use the format YYYY-MM-DD");
+      return;
+    }
+
+    try {
       // make an API request to the server to validate the citizen information
       const response = await axios.post(
         "http://127.0.0.1:8080/api/citizen_info_validation/",
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` }, // pass the token in the headers as proof of authentication
-        }
+        formData
       );
 
       // Check if response and response.data are defined
@@ -49,7 +65,7 @@ export const CitizenValidationForm = ({ next }) => {
       setError("");
 
       // redirect the user to the next form upon success
-      navigate(`/api/${next}/`);
+      navigate(`${next}/`);
     } catch (error) {
       setError(error.response.data.detail);
     }
@@ -118,13 +134,13 @@ export const CitizenValidationForm = ({ next }) => {
               type="radio"
               name="sex"
               className="form-check-input"
-              id="Male"
-              value="Male"
+              id="M"
+              value="M"
               required={true}
-              checked={formData.sex === "Male"}
+              checked={formData.sex === "M"}
               onChange={handleChange}
             />
-            <label className="form-check-label" htmlFor="Male">
+            <label className="form-check-label" htmlFor="M">
               Male
             </label>
           </div>
@@ -133,13 +149,13 @@ export const CitizenValidationForm = ({ next }) => {
               type="radio"
               name="sex"
               className="form-check-input"
-              id="Female"
-              value="Female"
+              id="F"
+              value="F"
               required={true}
-              checked={formData.sex === "Female"}
+              checked={formData.sex === "F"}
               onChange={handleChange}
             />
-            <label className="form-check-label" htmlFor="Female">
+            <label className="form-check-label" htmlFor="F">
               Female
             </label>
           </div>

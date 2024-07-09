@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 // components
+// import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Home } from "./components/Home";
 import { Profile } from "./components/Profile";
 import { TownHall } from "./components/TownHall";
@@ -22,6 +23,7 @@ import { LoginForm } from "./components/LoginForm";
 import { CitizenValidationForm } from "./components/CitizenValidationForm";
 import { AddressValidationForm } from "./components/AddressValidationForm";
 import { PassportValidationForm } from "./components/PassportValidationForm";
+import { Success } from "./components/Success";
 // add the icons to the library
 library.add(fas);
 
@@ -82,29 +84,52 @@ function App() {
             {/* route is used to define the mapping between the URL path and the component that should be rendered 
             when the path matches. Note: exact is used to match the path exactly */}
             <Route path="/" element={<Home />} exact />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/townhall" element={<TownHall />} />
+            <Route
+              path="/profile"
+              element={
+                // <ProtectedRoute>
+                  <Profile />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/townhall"
+              element={
+                // <ProtectedRoute>
+                  <TownHall />
+                // </ProtectedRoute>
+              }
+            />
             <Route path="/services" element={<Services />} />
             <Route
               path="/services/citizen_info"
-              element={<CitizenValidationForm next="/services/address" />}
+              element={
+                // <ProtectedRoute>
+                  <CitizenValidationForm next="/services/address" />
+                // </ProtectedRoute>
+              }
             />
             <Route
               path="/services/address"
               element={
-                <AddressValidationForm next="/services/passport" />
+                // <ProtectedRoute>
+                  <AddressValidationForm next="/services/passport" />
+                // </ProtectedRoute>
               }
             />
             <Route
               path="/services/passport"
               element={
-                <PassportValidationForm />
+                // <ProtectedRoute>
+                  <PassportValidationForm />
+                // </ProtectedRoute>
               }
             />
             <Route
               path="/login/"
               element={<LoginForm onLogin={handleLogin} />}
             />
+            <Route path="/success" element={<Success />} />
             {/* this route will be rendered when no other route matches the URL path */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -28,16 +28,10 @@ export const AddressValidationForm = ({ next }) => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
     try {
-      // retrieve the token from local storage
-      const token = localStorage.getItem("access_token");
-
       // make an API request to the server to validate the citizen's address
       const response = await axios.post(
         "http://127.0.0.1:8080/api/address_info_validation/",
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` }, // pass the token in the headers as proof of authentication
-        }
+        formData
       );
 
       // Check if response and response.data are defined
@@ -49,7 +43,7 @@ export const AddressValidationForm = ({ next }) => {
       setError("");
 
       // redirect the user to the next form upon success
-      navigate(`/api/${next}/`);
+      navigate(`${next}/`);
     } catch (error) {
       setError(error.response.data.detail);
     }

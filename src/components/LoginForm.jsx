@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +10,16 @@ export const LoginForm = ({ onLogin }) => {
 
   // useNavigate is a hook that allows us to navigate to different pages
   const navigate = useNavigate();
+
+  // if the session has expired, notify the user
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionExpired = urlParams.get("sessionExpired");
+    if (sessionExpired) {
+      alert("Your session has expired. Please log in again.");
+    }
+  }, []);
+  //copilot ^_^
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission

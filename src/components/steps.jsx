@@ -30,7 +30,7 @@ export const Steps = ({ stepsContext }) => {
           {/* loop over each item in the context array and display a step tracker for it */}
           {stepsContext.map((_, i) => {
             return (
-              <div className={step === i + 1 ? "active-step" : "inactive-step"}>
+              <div className={step >= i + 1 ? "active-step" : "inactive-step"} key={i}>
                 {i + 1}
               </div>
             );
