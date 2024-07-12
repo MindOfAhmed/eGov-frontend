@@ -8,9 +8,9 @@ export const PassportValidationForm = () => {
     passport_number: "",
     issue_date: "",
     expiry_date: "",
-    picture: null,
+    picture: "",
     reason: "",
-    proof_document: null,
+    proof_document: "",
   });
   // create state variable to control the error message
   const [error, setError] = useState("");
@@ -73,21 +73,31 @@ export const PassportValidationForm = () => {
       // make an API request to the server to validate the citizen's address
       const response = await axios.post(
         "http://127.0.0.1:8080/api/passport_info_validation/",
-        formDataToSend
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        // copilot ^_^ only the header
       );
 
       // Check if response and response.data are defined
       if (!response || !response.data) {
         throw new Error("Invalid server response");
       }
-
       // clear any previous errors
       setError("");
-
       // redirect the user to the next form upon success
       navigate("/success");
     } catch (error) {
-      setError(error.response.data.detail);
+      // check if the error response exists and has a data property with a message
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : "An error occurred. Please try again later.";
+      setError(errorMessage);
+      // copilot ^_^
     }
   };
   // create a state variable to control the visibility of the additional fields
@@ -99,12 +109,12 @@ export const PassportValidationForm = () => {
     const threeYearsAgo = new Date(today.setFullYear(today.getFullYear() - 3))
       .toISOString()
       .slice(0, 10); // copilot ^_^
-    // don't do anything if the issue date is empty
+    // don't do anything if the issue date isn't complete
     if (formData.issue_date.length < 10) {
       return;
     }
-    // if the issue date is less than three years ago, show the additional fields
-    if (formData.issue_date < threeYearsAgo) {
+    // if the issue date is within three years ago, show the additional fields
+    if (formData.issue_date > threeYearsAgo) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -112,7 +122,7 @@ export const PassportValidationForm = () => {
   }, [formData.issue_date]); // dependency array, this effect runs only when formData.issue_date changes
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="col-md-12 d-flex justify-content-center align-items-center flex-column mt-5">
         <h1>Passport Information</h1>
         <p>
@@ -161,6 +171,7 @@ export const PassportValidationForm = () => {
           <label htmlFor="file">Upload New Picture: </label>
           <input
             type="file"
+            name="picture"
             className="form-control"
             required={true}
             onChange={handleChange}
@@ -187,6 +198,7 @@ export const PassportValidationForm = () => {
               <label htmlFor="file">Upload a Proof Document: </label>
               <input
                 type="file"
+                name="proof_document"
                 className="form-control"
                 onChange={handleChange}
               />
@@ -194,7 +206,7 @@ export const PassportValidationForm = () => {
           </>
         ) : null}
         {error && (
-          <div className="form-group" role="alert">
+          <div className="alert alert-info mt-3" role="alert">
             {error}
           </div>
         )}

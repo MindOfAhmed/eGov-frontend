@@ -45,7 +45,11 @@ export const AddressValidationForm = ({ next }) => {
       // redirect the user to the next form upon success
       navigate(`${next}/`);
     } catch (error) {
-      setError(error.response.data.detail);
+      const errorMessage =
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : "An error occurred. Please try again later."; // this is in case the error message is not available
+      setError(errorMessage);
     }
   };
 
@@ -127,7 +131,7 @@ export const AddressValidationForm = ({ next }) => {
           />
         </div>
         {error && (
-          <div className="form-group" role="alert">
+          <div className="alert alert-info mt-3" role="alert">
             {error}
           </div>
         )}

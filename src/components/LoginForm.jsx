@@ -89,7 +89,7 @@ export const LoginForm = ({ onLogin }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {error && <div className="form-group">{error}</div>}
+        {error && <div className="alert alert-info mt-3">{error}</div>}
         <button type="submit" className="button mt-3" role="alert">
           Login
         </button>
