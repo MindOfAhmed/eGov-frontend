@@ -49,8 +49,8 @@ export const Home = () => {
                 iure quibusdam in quis?"
         />
         <Card
-          title="ID Card"
-          icon="fa-solid fa-id-card-clip"
+          title="Property Registration"
+          icon="fa-solid fa-house-user"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ad saepe cumque deleniti maiores
                 iure quibusdam in quis?"
         />

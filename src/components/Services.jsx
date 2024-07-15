@@ -1,6 +1,6 @@
 import passport from "../assets/passport.jpg";
 import driver from "../assets/driver.jpg";
-import id from "../assets/id.jpg";
+import address from "../assets/address.jpg";
 import vehicle from "../assets/vehicle.jpg";
 import property from "../assets/property.jpg";
 import { Service } from "./Service";
@@ -30,12 +30,11 @@ export const Services = () => {
       icon: "fa-solid fa-check-circle",
     },
   ];
-  const IDSteps = [
+  const addressSteps = [
     { step: "Fill in your personal details", icon: "fa-solid fa-user" },
-    { step: "Confirm your address", icon: "fa-solid fa-map-marker" },
     {
-      step: "Confirm your current ID card details and upload new picture",
-      icon: "fa-solid fa-id-card-clip",
+      step: "Enter new address details & upload a proof document",
+      icon: "fa-solid fa-map-marker",
     },
     {
       step: "You're all set & we will process your request!",
@@ -71,7 +70,13 @@ export const Services = () => {
         title="Passport Renewal"
         picture={passport}
         stepsContext={passportSteps}
-        serviceLink={"/services/citizen_info"}
+        serviceLink={"/services/passport_citizen"}
+      />
+      <Service
+        title="Address Registration"
+        picture={address}
+        stepsContext={addressSteps}
+        serviceLink={"/services/address_citizen"}
       />
       <Service
         title="Vehicle Registration"
@@ -83,18 +88,12 @@ export const Services = () => {
         title="Driver's License Renewal"
         picture={driver}
         stepsContext={licensetSteps}
-        serviceLink={"/"}
+        serviceLink={"/services/DriversLicense_citizen"}
       />
       <Service
         title="Property Registration"
         picture={property}
         stepsContext={propertySteps}
-        serviceLink={"/"}
-      />
-      <Service
-        title="ID Card Renewal"
-        picture={id}
-        stepsContext={IDSteps}
         serviceLink={"/"}
       />
     </>

@@ -23,6 +23,8 @@ import { LoginForm } from "./components/LoginForm";
 import { CitizenValidationForm } from "./components/CitizenValidationForm";
 import { AddressValidationForm } from "./components/AddressValidationForm";
 import { PassportValidationForm } from "./components/PassportValidationForm";
+import { DriversLicenseValidationForm } from "./components/DriversLicenseValidationForm";
+import { AddressRegistrationForm } from "./components/AddressRegistrationForm";
 import { Success } from "./components/Success";
 // add the icons to the library
 library.add(fas);
@@ -88,7 +90,7 @@ function App() {
               path="/profile"
               element={
                 // <ProtectedRoute>
-                  <Profile />
+                <Profile />
                 // </ProtectedRoute>
               }
             />
@@ -96,24 +98,24 @@ function App() {
               path="/townhall"
               element={
                 // <ProtectedRoute>
-                  <TownHall />
+                <TownHall />
                 // </ProtectedRoute>
               }
             />
             <Route path="/services" element={<Services />} />
             <Route
-              path="/services/citizen_info"
+              path="/services/passport_citizen"
               element={
                 // <ProtectedRoute>
-                  <CitizenValidationForm next="/services/address" />
+                <CitizenValidationForm next="/services/passport_address" />
                 // </ProtectedRoute>
               }
             />
             <Route
-              path="/services/address"
+              path="/services/passport_address"
               element={
                 // <ProtectedRoute>
-                  <AddressValidationForm next="/services/passport" />
+                <AddressValidationForm next="/services/passport" />
                 // </ProtectedRoute>
               }
             />
@@ -121,7 +123,47 @@ function App() {
               path="/services/passport"
               element={
                 // <ProtectedRoute>
-                  <PassportValidationForm />
+                <PassportValidationForm />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/DriversLicense_citizen"
+              element={
+                // <ProtectedRoute>
+                <CitizenValidationForm next="/services/DriversLicense_address" />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/DriversLicense_address"
+              element={
+                // <ProtectedRoute>
+                <AddressValidationForm next="/services/DriversLicense" />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/DriversLicense"
+              element={
+                // <ProtectedRoute>
+                <DriversLicenseValidationForm />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/address"
+              element={
+                // <ProtectedRoute>
+                <AddressRegistrationForm />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/address_citizen"
+              element={
+                // <ProtectedRoute>
+                <CitizenValidationForm next="/services/address" />
                 // </ProtectedRoute>
               }
             />

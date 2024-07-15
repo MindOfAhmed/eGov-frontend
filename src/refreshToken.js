@@ -1,5 +1,4 @@
 import axios from "axios";
-
 /*
  *This interceptor will run before each request
  * if there's an access token in local storage it will be attached to the request headers
@@ -10,13 +9,15 @@ const refreshToken = async () => {
   const refresh_token = localStorage.getItem("refresh_token");
   // check if a refresh attempt has already failed
   if (refresh_token && !localStorage.getItem("refresh_attempt_failed")) {
+    // send a request to the refresh token endpoint
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/token/refresh/",
+        "http://127.0.0.1:8080/api/token/refresh/",
         {
           refresh: refresh_token,
         }
       );
+      // store the new access token in local storage
       localStorage.setItem("access_token", response.data.access);
       // reset the flag on successful refresh
       localStorage.removeItem("refresh_attempt_failed");
@@ -30,7 +31,7 @@ const refreshToken = async () => {
   }
 };
 
-// modify the interceptor logic to check for the refresh_attempt_failed flag
+// setupAxiosInterceptors.js
 const setupAxiosInterceptors = () => {
   axios.interceptors.response.use(
     (response) => response,
@@ -39,7 +40,7 @@ const setupAxiosInterceptors = () => {
       if (
         error.response.status === 401 && // check if the error status is unauthorized
         !originalRequest._retry && // check if this is not a retry request
-        !originalRequest.url.includes("/token/refresh/") && // check if the request is not a refresh token request
+        !originalRequest.url.includes("/api/token/refresh/") && // check if the request is not a refresh token request
         !localStorage.getItem("refresh_attempt_failed") // check if a refresh attempt has not already failed
       ) {
         // set the retry flag
@@ -59,6 +60,7 @@ const setupAxiosInterceptors = () => {
       return Promise.reject(error);
     }
   );
+
   // add the Authorization header to the request
   axios.interceptors.request.use(
     (config) => {
@@ -76,3 +78,5 @@ const setupAxiosInterceptors = () => {
 
 // initialize the Axios interceptors
 setupAxiosInterceptors();
+
+export default setupAxiosInterceptors;

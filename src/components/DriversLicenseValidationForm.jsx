@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const PassportValidationForm = () => {
+export const DriversLicenseValidationForm = () => {
   // create state variable to control the form
   const [formData, setFormData] = useState({
-    passport_number: "",
+    license_number: "",
     issue_date: "",
     expiry_date: "",
+    nationality: "",
+    license_class: "",
+    emergency_contact: "",
     picture: "",
     reason: "",
     proof_document: "",
@@ -32,7 +35,6 @@ export const PassportValidationForm = () => {
         [name]: value,
       });
     }
-    // copilot ^_^
   };
   // ensure that the dates entered are mumbers in the format YYYY-MM-DD
   const validateDateFormat = (dateString) => {
@@ -47,7 +49,6 @@ export const PassportValidationForm = () => {
 
     return dateString === date.toISOString().split("T")[0];
   };
-  // copilot ^_^
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
@@ -68,18 +69,16 @@ export const PassportValidationForm = () => {
       Object.keys(formData).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
-      // copilot ^_^
 
-      // make an API request to the server to validate the citizen's passport
+      // make an API request to the server to validate the citizen's license
       const response = await axios.post(
-        "http://127.0.0.1:8080/api/passport_info_validation/",
+        "http://127.0.0.1:8080/api/license_info_validation/",
         formDataToSend,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
-        // copilot ^_^ only the header
       );
 
       // Check if response and response.data are defined
@@ -97,24 +96,22 @@ export const PassportValidationForm = () => {
           ? error.response.data.message
           : "An error occurred. Please try again later.";
       setError(errorMessage);
-      // copilot ^_^
     }
   };
   // create a state variable to control the visibility of the additional fields
   const [isVisible, setIsVisible] = useState(false);
-  //  copilot suggested the useeffect because otherwise, infinte loop will occur
   useEffect(() => {
     // create a date object for three years ago
     const today = new Date();
-    const threeYearsAgo = new Date(today.setFullYear(today.getFullYear() - 3))
+    const fiveYearsAgo = new Date(today.setFullYear(today.getFullYear() - 5))
       .toISOString()
-      .slice(0, 10); // copilot ^_^
+      .slice(0, 10);
     // don't do anything if the issue date isn't complete
     if (formData.issue_date.length < 10) {
       return;
     }
-    // if the issue date is within three years ago, show the additional fields
-    if (formData.issue_date > threeYearsAgo) {
+    // if the issue date is within five years ago, show the additional fields
+    if (formData.issue_date > fiveYearsAgo) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -124,19 +121,48 @@ export const PassportValidationForm = () => {
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="col-md-12 d-flex justify-content-center align-items-center flex-column mt-5">
-        <h1>Passport Information</h1>
-        <p>
-          please confirm you current passport information and upload a new
-          picture
+        <h1>Driver's License Information</h1>
+        <p className="col-md-6">
+          please confirm you current License information and upload a new
+          picture and the latest emergency contact
         </p>
         <div className="form-group col-md-6">
-          <label htmlFor="passport_number">Passport Number: </label>
+          <label htmlFor="license_number">License Number: </label>
           <input
             type="text"
-            name="passport_number"
-            id="passport_number"
+            name="license_number"
+            id="license_number"
             className="form-control"
-            value={formData.passport_number}
+            value={formData.license_number}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="license_class">License Class: </label>
+          <select
+            className="form-control"
+            name="license_class"
+            id="license_class"
+            value={formData.license_class}
+            onChange={handleChange}
+            required={true}
+          >
+            <option value="">Select A Class</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="nationality">Nationality: </label>
+          <input
+            type="text"
+            name="nationality"
+            id="nationality"
+            className="form-control"
+            value={formData.nationality}
             required={true}
             onChange={handleChange}
           />
@@ -168,6 +194,21 @@ export const PassportValidationForm = () => {
           />
         </div>
         <div className="form-group col-md-6">
+          <label htmlFor="emergency_contact">
+            Upade Your Emergency Contact:
+          </label>
+          <input
+            type="text"
+            name="emergency_contact"
+            id="emergency_contact"
+            className="form-control"
+            placeholder="e.g. +XX012345678"
+            value={formData.emergency_contact}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
           <label htmlFor="file">Upload New Picture: </label>
           <input
             type="file"
@@ -180,7 +221,7 @@ export const PassportValidationForm = () => {
         {isVisible === true ? (
           <>
             <p className="col-md-6 mt-3 fw-bold">
-              you already renewed your passport in the last 3 years. Please
+              you already renewed your license in the last 5 years. Please
               provide an early renewal reason and upload a proof document (eg.
               police report)
             </p>

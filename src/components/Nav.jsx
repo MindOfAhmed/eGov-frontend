@@ -53,7 +53,7 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
                     <img
                       src={userData.citizens.picture}
                       alt="profile"
-                      className="rounded-circle"
+                      className="rounded-circle mt-2"
                       height={40}
                       width={40}
                     />

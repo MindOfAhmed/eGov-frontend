@@ -25,7 +25,7 @@ export const LoginForm = ({ onLogin }) => {
     e.preventDefault(); // this is to prevent the default form submission
     try {
       // send a login request to the server and fetch the tokens
-      const response = await axios.post("http://127.0.0.1:8080/token/", {
+      const response = await axios.post("http://127.0.0.1:8080/api/token/", {
         username,
         password,
       });
@@ -63,7 +63,7 @@ export const LoginForm = ({ onLogin }) => {
       navigate("/");
     } catch (error) {
       // Invalid credentials
-      setError(error.response.data.detail);
+      setError(error.response?.data?.detail || 'Login Failed. Please try again.');
     }
   };
 
