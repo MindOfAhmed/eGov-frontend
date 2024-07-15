@@ -2,16 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const AddressRegistrationForm = ({ next }) => {
+export const PropertyRegistrationForm = ({ next }) => {
   // create state variable to control the form
   const [formData, setFormData] = useState({
-    country: "",
-    city: "",
-    street: "",
-    building_number: "",
-    floor_number: "",
-    apartment_number: "",
+    property_id: "",
+    location: "",
+    property_type: "",
+    description: "",
+    size: "",
+    picture: "",
     proof_document: "",
+    previous_owner_id: "",
   });
   // create state variable to control the error message
   const [error, setError] = useState("");
@@ -44,9 +45,9 @@ export const AddressRegistrationForm = ({ next }) => {
     });
 
     try {
-      // make an API request to the server to register the citizen's alleged address
+      // make an API request to the server to register the citizen's alleged property
       const response = await axios.post(
-        "http://127.0.0.1:8080/api/register_address/",
+        "http://127.0.0.1:8080/api/register_property/",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -75,88 +76,106 @@ export const AddressRegistrationForm = ({ next }) => {
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="col-md-12 d-flex justify-content-center align-items-center flex-column mt-5">
-        <h1>New Address Confirmation</h1>
-        <p>please enter the details for your new address and upload a proof document</p>
+        <h1>Property Confirmation</h1>
+        <p>
+          please enter the details for your new property and upload a proof
+          document
+        </p>
         <div className="form-group col-md-6">
-          <label htmlFor="country">Country</label>
+          <label htmlFor="property_id">Propert ID: </label>
           <input
             type="text"
-            name="country"
-            id="country"
+            name="property_id"
+            id="property_id"
             className="form-control"
-            value={formData.country}
+            value={formData.property_id}
             required={true}
             onChange={handleChange}
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="city">City: </label>
-          <input
-            type="text"
-            name="city"
-            id="city"
-            className="form-control"
-            value={formData.city}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="street">Stree: </label>
-          <input
-            type="text"
-            name="street"
-            id="street"
-            className="form-control"
-            value={formData.street}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="building_number">Building Number: </label>
-          <input
-            type="number"
-            name="building_number"
-            id="building_number"
-            className="form-control"
-            value={formData.building_number}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="floor_number">Floor Number: </label>
-          <input
-            type="number"
-            name="floor_number"
-            id="floor_number"
-            className="form-control"
-            value={formData.floor_number}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="apartment_number">Apartment Number: </label>
-          <input
-            type="number"
-            name="apartment_number"
-            id="apartment_number"
-            className="form-control"
-            value={formData.apartment_number}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="file">
-            Upload a Proof Document: eg. utility bill, contract, pledge, etc.{" "}
+          <label htmlFor="previous_owner_id">
+            Previous Owner National ID:{" "}
           </label>
+          <input
+            type="text"
+            name="previous_owner_id"
+            id="previous_owner_id"
+            className="form-control"
+            value={formData.previous_owner_id}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="location">Property Location: </label>
+          <input
+            type="text"
+            name="location"
+            id="location"
+            placeholder="In the exact format in the proof document. eg. 123 Main Street, New York"
+            className="form-control"
+            value={formData.location}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="property_type">Property Type: </label>
+          <select
+            className="form-control"
+            name="property_type"
+            id="property_type"
+            value={formData.property_type}
+            onChange={handleChange}
+            required={true}
+          >
+            <option value="">Select A Property Type</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Industrial">Industrial</option>
+            <option value="Agricultural">Agricultural</option>
+            <option value="Land">Land</option>
+            <option value="Intellectual">Intellectual</option>
+          </select>
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="description">Property Description: </label>
+          <textarea
+            className="form-control"
+            name="description"
+            id="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="size">Property Size: </label>
+          <input
+            type="text"
+            name="size"
+            id="size"
+            placeholder="In the exact format in the proof document. eg. 1000 sqft"
+            className="form-control"
+            value={formData.size}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="file">Upload a Proof Document: eg. contract</label>
           <input
             type="file"
             name="proof_document"
             required={true}
+            className="form-control"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="file">Upload a picture of The Property:</label>
+          <input
+            type="file"
+            name="picture"
             className="form-control"
             onChange={handleChange}
           />

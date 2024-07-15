@@ -94,7 +94,7 @@ export const Services = () => {
         title="Property Registration"
         picture={property}
         stepsContext={propertySteps}
-        serviceLink={"/"}
+        serviceLink={"/services/property_citizen"}
       />
     </>
   );
