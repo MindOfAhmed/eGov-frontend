@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const PropertyRegistrationForm = ({ next }) => {
+export const PropertyRegistrationForm = () => {
   // create state variable to control the form
   const [formData, setFormData] = useState({
     property_id: "",

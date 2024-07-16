@@ -82,7 +82,7 @@ export const Services = () => {
         title="Vehicle Registration"
         picture={vehicle}
         stepsContext={vehicleSteps}
-        serviceLink={"/"}
+        serviceLink={"/services/vehicle_citizen"}
       />
       <Service
         title="Driver's License Renewal"

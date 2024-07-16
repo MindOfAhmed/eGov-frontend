@@ -2,16 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const AddressRegistrationForm = () => {
+export const VehicleRegistrationForm = () => {
   // create state variable to control the form
   const [formData, setFormData] = useState({
-    country: "",
-    city: "",
-    street: "",
-    building_number: "",
-    floor_number: "",
-    apartment_number: "",
+    serial_number: "",
+    manufacturer: "",
+    model: "",
+    year: "",
+    vehicle_type: "",
+    picture: "",
     proof_document: "",
+    previous_owner_id: "",
+    plate_number: "",
   });
   // create state variable to control the error message
   const [error, setError] = useState("");
@@ -44,9 +46,9 @@ export const AddressRegistrationForm = () => {
     });
 
     try {
-      // make an API request to the server to register the citizen's alleged address
+      // make an API request to the server to register the citizen's alleged vehicle
       const response = await axios.post(
-        "http://127.0.0.1:8080/api/register_address/",
+        "http://127.0.0.1:8080/api/register_vehicle/",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -75,88 +77,118 @@ export const AddressRegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="col-md-12 d-flex justify-content-center align-items-center flex-column mt-5">
-        <h1>New Address Confirmation</h1>
-        <p>please enter the details for your new address and upload a proof document</p>
+        <h1>Vehicle Confirmation</h1>
+        <p>
+          please enter the new vehicle details and upload a proof
+          document
+        </p>
         <div className="form-group col-md-6">
-          <label htmlFor="country">Country</label>
-          <input
-            type="text"
-            name="country"
-            id="country"
-            className="form-control"
-            value={formData.country}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="city">City: </label>
-          <input
-            type="text"
-            name="city"
-            id="city"
-            className="form-control"
-            value={formData.city}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="street">Stree: </label>
-          <input
-            type="text"
-            name="street"
-            id="street"
-            className="form-control"
-            value={formData.street}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="building_number">Building Number: </label>
+          <label htmlFor="serial_number">Serial Number: </label>
           <input
             type="number"
-            name="building_number"
-            id="building_number"
+            name="serial_number"
+            id="serial_number"
             className="form-control"
-            value={formData.building_number}
+            value={formData.serial_number}
             required={true}
             onChange={handleChange}
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="floor_number">Floor Number: </label>
-          <input
-            type="number"
-            name="floor_number"
-            id="floor_number"
-            className="form-control"
-            value={formData.floor_number}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="apartment_number">Apartment Number: </label>
-          <input
-            type="number"
-            name="apartment_number"
-            id="apartment_number"
-            className="form-control"
-            value={formData.apartment_number}
-            required={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label htmlFor="file">
-            Upload a Proof Document: eg. utility bill, contract, pledge, etc.{" "}
+          <label htmlFor="previous_owner_id">
+            Previous Owner National ID:
           </label>
+          <input
+            type="text"
+            name="previous_owner_id"
+            id="previous_owner_id"
+            className="form-control"
+            value={formData.previous_owner_id}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="model">model: </label>
+          <input
+            type="text"
+            name="model"
+            id="model"
+            placeholder="In the exact format in the proof document. eg. Toyota Corolla"
+            className="form-control"
+            value={formData.model}
+            required={true}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="vehicle_type">Vehicle Type: </label>
+          <select
+            className="form-control"
+            name="vehicle_type"
+            id="vehicle_type"
+            value={formData.vehicle_type}
+            onChange={handleChange}
+            required={true}
+          >
+            <option value="">Select A Vehicle Type</option>
+            <option value="SUV">SUV</option>
+            <option value="Sedan">Sedan</option>
+            <option value="Truck">Truck</option>
+            <option value="Van">Van</option>
+            <option value="Bus">Bus</option>
+            <option value="Sports Car">Sports Car</option>
+            <option value="Motorcycle">Motorcycle</option>
+          </select>
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="manufacturer">Manufacturer: </label>
+          <input
+            type="text"
+            name="manufacturer"
+            id="manufacturer"
+            className="form-control"
+            value={formData.manufacturer}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="year">Year: </label>
+          <input
+            type="number"
+            name="year"
+            id="year"
+            className="form-control"
+            value={formData.year}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="plate_number">Plate Number: </label>
+          <input
+            type="text"
+            name="plate_number"
+            id="plate_number"
+            className="form-control"
+            value={formData.plate_number}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="file">Upload a Proof Document: eg. contract</label>
           <input
             type="file"
             name="proof_document"
             required={true}
+            className="form-control"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group col-md-6">
+          <label htmlFor="file">Upload a picture of The Vehicle:</label>
+          <input
+            type="file"
+            name="picture"
             className="form-control"
             onChange={handleChange}
           />

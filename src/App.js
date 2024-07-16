@@ -26,6 +26,7 @@ import { PassportValidationForm } from "./components/PassportValidationForm";
 import { DriversLicenseValidationForm } from "./components/DriversLicenseValidationForm";
 import { AddressRegistrationForm } from "./components/AddressRegistrationForm";
 import { PropertyRegistrationForm } from "./components/PropertyRegistrationForm";
+import { VehicleRegistrationForm } from "./components/VehicleRegistrationForm";
 import { Success } from "./components/Success";
 // add the icons to the library
 library.add(fas);
@@ -181,6 +182,22 @@ function App() {
               element={
                 // <ProtectedRoute>
                 <PropertyRegistrationForm />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/vehicle_citizen"
+              element={
+                // <ProtectedRoute>
+                <CitizenValidationForm next="/services/vehicle" />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services/vehicle"
+              element={
+                // <ProtectedRoute>
+                <VehicleRegistrationForm />
                 // </ProtectedRoute>
               }
             />
