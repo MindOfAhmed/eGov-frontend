@@ -1,7 +1,24 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getUserGroups } from "../getUserGroups";
 
 export const Nav = ({ isLoggedIn, onLogout, userData }) => {
-  // console.log("user data state: ", userData);
+  // create state variable that will store the user groups the user is in
+  const [userGroups, setUserGroups] = useState([]);
+
+  useEffect(() => {
+    // fetch the user groups from the backend
+    const fetchGroups = async () => {
+      const groups = await getUserGroups();
+      // store the groups in state
+      setUserGroups(groups);
+    };
+    fetchGroups();
+  }, []);
+  console.log("groups: ", userGroups);
+
+  // this function will check if the user is in a specific group
+  const isInGroup = (group) => userGroups.includes(group);
 
   return (
     <nav className="navbar navbar-expand-lg primary_color">
@@ -35,11 +52,25 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
             {/* conditionally render the login, logout, and profile links */}
             {isLoggedIn ? (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link complimentary_color" to="/profile">
-                    Profile
-                  </Link>
-                </li>
+                {isInGroup("Inspectors") ? (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link complimentary_color"
+                      to="/requests"
+                    >
+                      Requests
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link complimentary_color"
+                      to="/profile"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                )}
                 <li className="nav-item">
                   <button
                     className="nav-link complimentary_color"

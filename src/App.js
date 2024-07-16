@@ -15,6 +15,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { Home } from "./components/Home";
 import { Profile } from "./components/Profile";
 import { TownHall } from "./components/TownHall";
+import { Requests } from "./components/Requests";
 import { Services } from "./components/Services";
 import { NotFound } from "./components/NotFound";
 import { Nav } from "./components/Nav";
@@ -101,6 +102,14 @@ function App() {
               element={
                 // <ProtectedRoute>
                 <TownHall />
+                // </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requests"
+              element={
+                // <ProtectedRoute>
+                <Requests />
                 // </ProtectedRoute>
               }
             />
