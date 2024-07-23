@@ -7,6 +7,9 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
   const [userGroups, setUserGroups] = useState([]);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     // fetch the user groups from the backend
     const fetchGroups = async () => {
       const groups = await getUserGroups();
@@ -14,8 +17,7 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
       setUserGroups(groups);
     };
     fetchGroups();
-  }, []);
-  console.log("groups: ", userGroups);
+  }, [isLoggedIn]); // copilot ^_^
 
   // this function will check if the user is in a specific group
   const isInGroup = (group) => userGroups.includes(group);

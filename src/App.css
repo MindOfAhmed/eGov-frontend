@@ -98,3 +98,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 30px;
     border-radius: 15px;
 }
+.document-picture {
+    max-width: 50%;
+    max-height: 80%;
+}

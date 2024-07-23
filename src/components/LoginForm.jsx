@@ -63,7 +63,9 @@ export const LoginForm = ({ onLogin }) => {
       navigate("/");
     } catch (error) {
       // Invalid credentials
-      setError(error.response?.data?.detail || 'Login Failed. Please try again.');
+      setError(
+        error.response?.data?.detail || "Login Failed. Please try again."
+      );
     }
   };
 
