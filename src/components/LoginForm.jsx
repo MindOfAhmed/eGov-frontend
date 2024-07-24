@@ -29,7 +29,7 @@ export const LoginForm = ({ onLogin }) => {
         username,
         password,
       });
-      // Check if response and response.data are defined
+      // check if response and response.data are defined
       if (!response || !response.data) {
         throw new Error("Invalid server response");
       }

@@ -7,6 +7,8 @@ import { DrivingLicense } from "./DrivingLicense";
 export const RenewalRequests = () => {
   // define state variables to store the requests
   const [requests, setRequests] = useState([]);
+  // define state variables to control the rejection reason form
+  const [rejectionReason, setRejectionReason] = useState(""); // this state variable has been lifted up from the RenewalRequest component
 
   // on mount, fetch the requests
   useEffect(() => {
@@ -26,23 +28,37 @@ export const RenewalRequests = () => {
   console.log("requests", requests); // Debug: Log the requests
 
   // define the function to handle the accept button
-  const handleAccept = async (request) => {
+  const handleAccept = async (requestID) => {
     // send an API request to accept the renewal request
     try {
-      await axios.post("http://127.0.0.1:8080/api/accept_renewal_request/", {
-        request: request,
-      });
+      const response = await axios.post(
+        `http://127.0.0.1:8080/api/accept_renewal_request/${requestID}/`
+      );
+      // check if response and response.data are defined
+      if (!response || !response.data) {
+        throw new Error("Invalid server response");
+      }
+      // filter out the accepted request from the requests array
+      setRequests(requests.filter((request) => request.id !== requestID));
     } catch (error) {
       console.error("Failed to accept renewal request:", error);
     }
   };
   // define the function to handle the reject button
-  const handleReject = async (request) => {
-    // send an API request to accept the renewal request
+  const handleReject = async (requestID) => {
+    // send an API request to reject the renewal request
     try {
-      await axios.post("http://127.0.0.1:8080/api/reject_renewal_request/", {
-        request: request,
-      });
+      // send the rejection reason along with the request
+      const response = await axios.post(
+        `http://127.0.0.1:8080/api/reject_renewal_request/${requestID}/`,
+        { rejectionReason }
+      );
+      // check if response and response.data are defined
+      if (!response || !response.data) {
+        throw new Error("Invalid server response");
+      }
+      // filter out the rejected request from the requests array
+      setRequests(requests.filter((request) => request.id !== requestID));
     } catch (error) {
       console.error("Failed to reject renewal request:", error);
     }
@@ -82,6 +98,8 @@ export const RenewalRequests = () => {
             />
           }
           onAccept={handleAccept}
+          onRejectionReason={rejectionReason}
+          onsetRejectionReason={setRejectionReason}
           onReject={handleReject}
         />
       ) : (
@@ -107,6 +125,8 @@ export const RenewalRequests = () => {
             />
           }
           onAccept={handleAccept}
+          onRejectionReason={rejectionReason}
+          onsetRejectionReason={setRejectionReason}
           onReject={handleReject}
         />
       )
