@@ -25,7 +25,6 @@ export const RenewalRequests = () => {
       }
     })();
   }, []);
-  console.log("requests", requests); // Debug: Log the requests
 
   // define the function to handle the accept button
   const handleAccept = async (requestID) => {
