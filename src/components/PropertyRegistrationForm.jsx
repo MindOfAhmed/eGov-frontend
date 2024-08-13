@@ -35,8 +35,37 @@ export const PropertyRegistrationForm = () => {
       });
     }
   };
+
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the property id is 8 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,8}$/.test(data.property_id)) {
+      return "Property ID must be 8 characters long without slashes or spaces";
+    }
+    // ensure that the previous owner ID is 11 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,11}$/.test(data.previous_owner_id)) {
+      return "Previous owner ID must be 11 characters long without slashes or spaces";
+    }
+    // ensure that the location, description, and size have no special characters
+    if (
+      !/^[a-zA-Z0-9\s]+$/.test(data.location) ||
+      !/^[a-zA-Z0-9\s]+$/.test(data.description) ||
+      !/^[a-zA-Z0-9\s]+$/.test(data.size)
+    ) {
+      return "Location, Description, and size must contain only alphabets and numbers";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
+
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
+
     // form data object is not directly accepted by the server
     const formDataToSend = new FormData(); // FormData is a web API that provides a way to construct a set of key/value pairs representing form fields and their values
     // convert the form data object to a FormData object that can handle files

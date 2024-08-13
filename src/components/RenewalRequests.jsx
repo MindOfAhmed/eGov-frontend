@@ -20,6 +20,7 @@ export const RenewalRequests = () => {
         );
         // set the requests in the state
         setRequests(response.data);
+        console.log("response.data:", response.data);
       } catch (error) {
         console.error("Failed to fetch renewal requests:", error);
       }
@@ -79,22 +80,26 @@ export const RenewalRequests = () => {
           key={request.id}
           request={request}
           oldDoc={
-            <Passport
-              citizen={request.citizen_info}
-              info={request.passport_info[0]}
-              picture={request.passport_info[0].picture}
-            />
+            request.passport_info && request.passport_info[0] ? (
+              <Passport
+                citizen={request.citizen_info}
+                info={request.passport_info[0]}
+                picture={request.passport_info[0].picture}
+              />
+            ) : null
           }
           newDoc={
-            <Passport
-              citizen={request.citizen_info}
-              info={{
-                ...request.passport_info[0],
-                issue_date: new Date().toISOString().split("T")[0],
-                expiry_date: extendExpiryDate(new Date(), 5),
-              }}
-              picture={request.picture}
-            />
+            request.passport_info && request.passport_info[0] ? (
+              <Passport
+                citizen={request.citizen_info}
+                info={{
+                  ...request.passport_info[0],
+                  issue_date: new Date().toISOString().split("T")[0],
+                  expiry_date: extendExpiryDate(new Date(), 5),
+                }}
+                picture={request.picture}
+              />
+            ) : null
           }
           onAccept={handleAccept}
           onRejectionReason={rejectionReason}
@@ -106,22 +111,26 @@ export const RenewalRequests = () => {
           key={request.id}
           request={request}
           oldDoc={
-            <DrivingLicense
-              picture={request.license_info[0].picture}
-              info={request.license_info[0]}
-              citizen={request.citizen_info}
-            />
+            request.license_info && request.license_info[0] ? (
+              <DrivingLicense
+                picture={request.license_info[0].picture}
+                info={request.license_info[0]}
+                citizen={request.citizen_info}
+              />
+            ) : null
           }
           newDoc={
-            <DrivingLicense
-              picture={request.picture}
-              info={{
-                ...request.license_info[0],
-                issue_date: new Date().toISOString().split("T")[0],
-                expiry_date: extendExpiryDate(new Date(), 10),
-              }}
-              citizen={request.citizen_info}
-            />
+            request.license_info && request.license_info[0] ? (
+              <DrivingLicense
+                picture={request.picture}
+                info={{
+                  ...request.license_info[0],
+                  issue_date: new Date().toISOString().split("T")[0],
+                  expiry_date: extendExpiryDate(new Date(), 10),
+                }}
+                citizen={request.citizen_info}
+              />
+            ) : null
           }
           onAccept={handleAccept}
           onRejectionReason={rejectionReason}

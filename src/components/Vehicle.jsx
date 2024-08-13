@@ -27,7 +27,11 @@ export const Vehicle = ({ info, citizen }) => {
           </div>
           {/* citizen info */}
           <div className="col me-2">
-            <strong>New Owner's National ID: </strong>
+            <strong>
+              {info.is_under_transfer
+                ? "New Owner's National ID:"
+                : "National ID:"}
+            </strong>
             <p>{citizen.national_id}</p>
             <strong>Name: </strong>
             <p>{citizen.first_name}</p>

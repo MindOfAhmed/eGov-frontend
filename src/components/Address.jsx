@@ -25,7 +25,11 @@ export const Address = ({ info, citizen }) => {
           </div>
           {/* citizen info */}
           <div className="col">
-            <strong>New Owner's National ID: </strong>
+            <strong>
+              {info.state === "Pending Request"
+                ? "New Owner's National ID:"
+                : "National ID:"}
+            </strong>
             <p>{citizen.national_id}</p>
             <strong>Name: </strong>
             <p>{citizen.first_name}</p>

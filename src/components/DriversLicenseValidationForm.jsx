@@ -50,17 +50,41 @@ export const DriversLicenseValidationForm = () => {
     return dateString === date.toISOString().split("T")[0];
   };
 
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the license number is 13 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,13}$/.test(data.license_number)) {
+      return "License number must be 13 characters long without slashes or spaces";
+    }
+    // ensure that the date format is as expected
+    if (
+      !validateDateFormat(data.issue_date) ||
+      !validateDateFormat(data.expiry_date)
+    ) {
+      return "Invalid date format. Please use the format YYYY-MM-DD";
+    }
+    // esnure that the nationality is only alphabets
+    if (!/^[a-zA-Z]+$/.test(data.nationality)) {
+      return "Nationality must contain only alphabets";
+    }
+    // ensure that the emergency contact is a valid phone number
+    if (!/^\+\d{2,3}\d{9,10}$/.test(data.emergency_contact)) {
+      return "Emergency contact must be a valid phone number";
+    }
+    // esnure the reason field can be empty and it doesn't contain any special characters
+    if (data.reason && !/^[a-zA-Z0-9\s]+$/.test(data.reason)) {
+      return "Reason for early renewal must contain only alphabets and numbers";
+    }
+
+    return "";
+  };
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
 
-    // ensure that the date format is as expected
-    if (
-      !validateDateFormat(formData.issue_date) ||
-      !validateDateFormat(formData.expiry_date)
-    ) {
-      setError("Invalid date format. Please use the format YYYY-MM-DD");
-      return;
-    }
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
 
     try {
       // form data object is not directly accepted by the server
@@ -202,7 +226,7 @@ export const DriversLicenseValidationForm = () => {
             name="emergency_contact"
             id="emergency_contact"
             className="form-control"
-            placeholder="e.g. +XX012345678"
+            placeholder="e.g. +XX12345678"
             value={formData.emergency_contact}
             required={true}
             onChange={handleChange}

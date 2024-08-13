@@ -34,8 +34,29 @@ export const AddressRegistrationForm = () => {
       });
     }
   };
+
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the street can have both alphabets and numbers without special characters
+    if (!/^[a-zA-Z0-9\s]+$/.test(data.street)) {
+      return "Street can only be number or alphabets";
+    }
+    // ensure that the country and city contain only alphabets without special characters
+    if (!/^[a-zA-Z]+$/.test(data.country) || !/^[a-zA-Z]+$/.test(data.city)) {
+      return "Country and City must contain only alphabets";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
+    
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
+
     // form data object is not directly accepted by the server
     const formDataToSend = new FormData(); // FormData is a web API that provides a way to construct a set of key/value pairs representing form fields and their values
     // convert the form data object to a FormData object that can handle files
@@ -102,7 +123,7 @@ export const AddressRegistrationForm = () => {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="street">Stree: </label>
+          <label htmlFor="street">Street: </label>
           <input
             type="text"
             name="street"

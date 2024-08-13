@@ -4,6 +4,11 @@ import bannerImage from "../assets/banner.jpg";
 import townhall from "../assets/th.jpg";
 import townhallGov from "../assets/thGov.jpg";
 import townhallCitizens from "../assets/thCitizens.jpg";
+import {
+  faHouseUser,
+  faPassport,
+  faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
   return (
@@ -38,19 +43,19 @@ export const Home = () => {
       <div className="row d-flex justify-content-center">
         <Card
           title="Passport Renewal"
-          icon="fa-solid fa-passport"
+          icon={faPassport}
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ad saepe cumque deleniti maiores
                 iure quibusdam in quis?"
         />
         <Card
           title="Driver's License Renewal"
-          icon="fa-solid fa-id-card"
+          icon={faIdCard}
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ad saepe cumque deleniti maiores
                 iure quibusdam in quis?"
         />
         <Card
           title="Property Registration"
-          icon="fa-solid fa-house-user"
+          icon={faHouseUser}
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ad saepe cumque deleniti maiores
                 iure quibusdam in quis?"
         />

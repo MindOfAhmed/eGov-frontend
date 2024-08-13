@@ -81,7 +81,7 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
                     Logout
                   </button>
                 </li>
-                {userData && userData.citizens && userData.citizens.picture && (
+                {/* {userData && userData.citizens && userData.citizens.picture && (
                   <li className="nav-item">
                     <img
                       src={userData.citizens.picture}
@@ -91,7 +91,7 @@ export const Nav = ({ isLoggedIn, onLogout, userData }) => {
                       width={40}
                     />
                   </li>
-                )}
+                )} */}
               </>
             ) : (
               <li className="nav-item">

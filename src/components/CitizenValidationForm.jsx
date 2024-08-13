@@ -40,14 +40,35 @@ export const CitizenValidationForm = ({ next }) => {
     return dateString === date.toISOString().split("T")[0];
   };
 
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the national ID is 11 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,11}$/.test(data.national_id)) {
+      return "National ID must be 11 characters long without slashes or spaces";
+    }
+    // ensure that the first and last name contain only alphabets without special characters
+    if (
+      !/^[a-zA-Z\s]+$/.test(data.first_name) ||
+      !/^[a-zA-Z\s]+$/.test(data.last_name)
+    ) {
+      return "First and Last Name must contain only alphabets";
+    }
+    // ensure that the date format is as expected (YYYY-MM-DD)
+    if (!validateDateFormat(data.date_of_birth)) {
+      return "Invalid date format. Please use the format YYYY-MM-DD";
+    }
+
+    return "";
+  };
+  // copilot helped with the regex
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
 
-    // ensure that the date format is as expected
-    if (!validateDateFormat(formData.date_of_birth)) {
-      setError("Invalid date format. Please use the format YYYY-MM-DD");
-      return;
-    }
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
 
     try {
       // make an API request to the server to validate the citizen information

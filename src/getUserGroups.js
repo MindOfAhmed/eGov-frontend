@@ -10,9 +10,16 @@ export const getUserGroups = async () => {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     });
-    return response.data.groups;
+    // check if response and response.data are defined
+    if (response && response.data && response.data.groups) {
+      return response.data.groups;
+    } else {
+      console.error("Invalid response structure", response);
+      return [];
+    }
+    // copilot ^_^
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching user gorups", error);
     return [];
   }
 };

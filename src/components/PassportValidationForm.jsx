@@ -49,17 +49,34 @@ export const PassportValidationForm = () => {
   };
   // copilot ^_^
 
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the passport number is 9 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,9}$/.test(data.passport_number)) {
+      return "Passport number must be 9 characters long without slashes or spaces";
+    }
+    // ensure that the date format is as expected
+    if (
+      !validateDateFormat(data.issue_date) ||
+      !validateDateFormat(data.expiry_date)
+    ) {
+      return "Invalid date format. Please use the format YYYY-MM-DD";
+    }
+    // esnure the reason field can be empty and it doesn't contain any special characters
+    if (data.reason && !/^[a-zA-Z0-9\s]+$/.test(data.reason)) {
+      return "Reason for early renewal must contain only alphabets and numbers";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
 
-    // ensure that the date format is as expected
-    if (
-      !validateDateFormat(formData.issue_date) ||
-      !validateDateFormat(formData.expiry_date)
-    ) {
-      setError("Invalid date format. Please use the format YYYY-MM-DD");
-      return;
-    }
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
 
     try {
       // form data object is not directly accepted by the server

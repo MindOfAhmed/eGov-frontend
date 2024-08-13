@@ -25,8 +25,29 @@ export const AddressValidationForm = ({ next }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the street can have both alphabets and numbers without special characters
+    if (!/^[a-zA-Z0-9\s]+$/.test(data.street)) {
+      return "Street can only be number or alphabets";
+    }
+    // ensure that the country and city contain only alphabets without special characters
+    if (!/^[a-zA-Z]+$/.test(data.country) || !/^[a-zA-Z]+$/.test(data.city)) {
+      return "Country and City must contain only alphabets";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
+
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
+
     try {
       // make an API request to the server to validate the citizen's address
       const response = await axios.post(

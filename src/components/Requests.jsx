@@ -5,7 +5,7 @@ import { RenewalRequests } from "./RenewalRequests";
 export const Requests = () => {
   return (
     // split the page into two tabs
-    <Tabs defaultActiveKey="Renewals" id="requests-tab">
+    <Tabs defaultActiveKey="Renewal Requests" id="requests-tab">
       <Tab eventKey="Renewal Requests" title="Renewal Requests">
         <RenewalRequests />
       </Tab>

@@ -4,63 +4,72 @@ import address from "../assets/address.jpg";
 import vehicle from "../assets/vehicle.jpg";
 import property from "../assets/property.jpg";
 import { Service } from "./Service";
+import {
+  faHouseUser,
+  faUser,
+  faPassport,
+  faIdCard,
+  faMapMarker,
+  faCheckCircle,
+  faCar,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const Services = () => {
   const passportSteps = [
-    { step: "Fill in your personal details", icon: "fa-solid fa-user" },
-    { step: "Confirm your address", icon: "fa-solid fa-map-marker" },
+    { step: "Fill in your personal details", icon: faUser },
+    { step: "Confirm your address", icon: faMapMarker },
     {
       step: "Confirm your current passport details and upload new picture",
-      icon: "fa-solid fa-passport",
+      icon: faPassport,
     },
     {
       step: "You're all set & we will process your request!",
-      icon: "fa-solid fa-check-circle",
+      icon: faCheckCircle,
     },
   ];
   const licensetSteps = [
-    { step: "Fill in your personal details", icon: "fa-solid fa-user" },
-    { step: "Confirm your address", icon: "fa-solid fa-map-marker" },
+    { step: "Fill in your personal details", icon: faUser },
+    { step: "Confirm your address", icon: faMapMarker },
     {
       step: "Confirm your current license details and upload new picture",
-      icon: "fa-solid fa-id-card",
+      icon: faIdCard,
     },
     {
       step: "You're all set & we will process your request!",
-      icon: "fa-solid fa-check-circle",
+      icon: faCheckCircle,
     },
   ];
   const addressSteps = [
-    { step: "Fill in your personal details", icon: "fa-solid fa-user" },
+    { step: "Fill in your personal details", icon: faUser },
     {
       step: "Enter new address details & upload a proof document",
-      icon: "fa-solid fa-map-marker",
+      icon: faMapMarker,
     },
     {
       step: "You're all set & we will process your request!",
-      icon: "fa-solid fa-check-circle",
+      icon: faCheckCircle,
     },
   ];
   const vehicleSteps = [
-    { step: "Fill in your personal details", icon: "fa-solid fa-user" },
+    { step: "Fill in your personal details", icon: faUser },
     {
       step: "Enter the vehicle details & upload a proof document",
-      icon: "fa-solid fa-car",
+      icon: faCar,
     },
     {
       step: "You're all set & we will process your request!",
-      icon: "fa-solid fa-check-circle",
+      icon: faCheckCircle,
     },
   ];
   const propertySteps = [
-    { step: "Fill in your personal details", icon: "fa-solid fa-user" },
+    { step: "Fill in your personal details", icon: faUser },
     {
       step: "Enter the property details & upload a proof document",
-      icon: "fa-solid fa-house-user",
+      icon: faHouseUser,
     },
     {
       step: "You're all set & we will process your request!",
-      icon: "fa-solid fa-check-circle",
+      icon: faCheckCircle,
     },
   ];
 

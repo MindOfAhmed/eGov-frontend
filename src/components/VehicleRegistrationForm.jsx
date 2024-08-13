@@ -36,8 +36,36 @@ export const VehicleRegistrationForm = () => {
       });
     }
   };
+
+  // ensure the field types are correct
+  const validateFormData = (data) => {
+    // ensure that the previous owner ID is 11 characters long without any special characters other than a dash
+    if (!/^(?!.*\/)[a-zA-Z0-9\s-]{1,11}$/.test(data.previous_owner_id)) {
+      return "Previous owner ID must be 11 characters long without slashes or spaces";
+    }
+    // ensure that the model and manufacturer only contain alphabets with no special characters
+    if (
+      !/^[a-zA-Z\s]+$/.test(data.model) ||
+      !/^[a-zA-Z\s]+$/.test(data.manufacturer)
+    ) {
+      return "Model and Manufacturer must contain only alphabets";
+    }
+    // ensure the plate number only contains alphabets and numbers with dashes and no other special characters
+    if (!/^[a-zA-Z0-9-]+$/.test(data.plate_number)) {
+      return "Plate Number must contain only alphabets, numbers, and dashes. eg. 34-jwt-45";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // this is to prevent the default form submission
+
+    // validate the form data
+    const validationError = validateFormData(formData);
+    setError(validationError);
+    if (validationError !== "") return;
+
     // form data object is not directly accepted by the server
     const formDataToSend = new FormData(); // FormData is a web API that provides a way to construct a set of key/value pairs representing form fields and their values
     // convert the form data object to a FormData object that can handle files
@@ -78,10 +106,7 @@ export const VehicleRegistrationForm = () => {
     <form onSubmit={handleSubmit} encType="multipart/form-data">
       <div className="col-md-12 d-flex justify-content-center align-items-center flex-column mt-5">
         <h1>Vehicle Confirmation</h1>
-        <p>
-          please enter the new vehicle details and upload a proof
-          document
-        </p>
+        <p>please enter the new vehicle details and upload a proof document</p>
         <div className="form-group col-md-6">
           <label htmlFor="serial_number">Serial Number: </label>
           <input
@@ -95,9 +120,7 @@ export const VehicleRegistrationForm = () => {
           />
         </div>
         <div className="form-group col-md-6">
-          <label htmlFor="previous_owner_id">
-            Previous Owner National ID:
-          </label>
+          <label htmlFor="previous_owner_id">Previous Owner National ID:</label>
           <input
             type="text"
             name="previous_owner_id"
@@ -169,6 +192,7 @@ export const VehicleRegistrationForm = () => {
             type="text"
             name="plate_number"
             id="plate_number"
+            placeholder="eg. 34-jwt-45"
             className="form-control"
             value={formData.plate_number}
             onChange={handleChange}
